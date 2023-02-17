@@ -20,14 +20,14 @@ volatile uint8_t	payloadBytes[1];
 /*
  *	Override Warp firmware's use of these pins and define new aliases.
  */
-enum
-{
-	kSSD1331PinMOSI		= GPIO_MAKE_PIN(HW_GPIOA, 8),
-	kSSD1331PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9),
-	kSSD1331PinCSn		= GPIO_MAKE_PIN(HW_GPIOB, 13),
-	kSSD1331PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12),
-	kSSD1331PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 0),
-};
+// enum
+// {
+// 	kSSD1331PinMOSI		= GPIO_MAKE_PIN(HW_GPIOA, 8),
+// 	kSSD1331PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9),
+// 	kSSD1331PinCSn		= GPIO_MAKE_PIN(HW_GPIOB, 13),
+// 	kSSD1331PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12),
+// 	kSSD1331PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 0),
+// };
 
 static int
 writeCommand(uint8_t commandByte)
@@ -77,7 +77,7 @@ devSSD1331init(void)
 	PORT_HAL_SetMuxMode(PORTA_BASE, 8u, kPortMuxAlt3);
 	PORT_HAL_SetMuxMode(PORTA_BASE, 9u, kPortMuxAlt3);
 
-	enableSPIpins();
+	warpEnableSPIpins();
 
 	/*
 	 *	Override Warp firmware's use of these pins.
@@ -131,20 +131,22 @@ devSSD1331init(void)
 	writeCommand(kSSD1331CommandVCOMH);		// 0xBE
 	writeCommand(0x3E);
 	writeCommand(kSSD1331CommandMASTERCURRENT);	// 0x87
-	writeCommand(0x06);
+	writeCommand(0x0F);
 	writeCommand(kSSD1331CommandCONTRASTA);		// 0x81
 	writeCommand(0x91);
 	writeCommand(kSSD1331CommandCONTRASTB);		// 0x82
-	writeCommand(0x50);
+	writeCommand(0xFF);
 	writeCommand(kSSD1331CommandCONTRASTC);		// 0x83
 	writeCommand(0x7D);
 	writeCommand(kSSD1331CommandDISPLAYON);		// Turn on oled panel
+	SEGGER_RTT_WriteString(0, "\r\n\tDone with initialization sequence...\n");
 
 	/*
 	 *	To use fill commands, you will have to issue a command to the display to enable them. See the manual.
 	 */
 	writeCommand(kSSD1331CommandFILL);
 	writeCommand(0x01);
+	SEGGER_RTT_WriteString(0, "\r\n\tDone with enabling fill...\n");
 
 	/*
 	 *	Clear Screen
@@ -154,14 +156,24 @@ devSSD1331init(void)
 	writeCommand(0x00);
 	writeCommand(0x5F);
 	writeCommand(0x3F);
-
+	SEGGER_RTT_WriteString(0, "\r\n\tDone with screen clear...\n");
 
 
 	/*
 	 *	Any post-initialization drawing commands go here.
 	 */
-	//...
-
+	writeCommand(kSSD1331CommandDRAWRECT);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x5F);
+	writeCommand(0x3F);
+	writeCommand(0x00);
+	writeCommand(0xFF);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0xFF);
+	writeCommand(0x00);
+	SEGGER_RTT_WriteString(0, "\r\n\tDone with drawing rectangle...\n");
 
 
 	return 0;

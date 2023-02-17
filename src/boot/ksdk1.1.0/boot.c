@@ -105,6 +105,9 @@
 	volatile WarpI2CDeviceState			deviceMMA8451QState;
 #endif
 
+#include "devSSD1331.h"
+volatile WarpSPIDeviceState			deviceSSD1331State;
+
 #if (WARP_BUILD_ENABLE_DEVLPS25H)
 	#include "devLPS25H.h"
 	volatile WarpI2CDeviceState			deviceLPS25HState;
@@ -1820,6 +1823,8 @@ main(void)
 		initBGX(kWarpDefaultSupplyVoltageMillivoltsBGX);
 		warpPrint("done.\n");
 	#endif
+
+	devSSD1331init();
 
 	/*
 	 *	If WARP_BUILD_DISABLE_SUPPLIES_BY_DEFAULT, will turn of the supplies
