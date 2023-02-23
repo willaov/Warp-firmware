@@ -133,11 +133,11 @@ devSSD1331init(void)
 	writeCommand(kSSD1331CommandMASTERCURRENT);	// 0x87
 	writeCommand(0x0F);
 	writeCommand(kSSD1331CommandCONTRASTA);		// 0x81
-	writeCommand(0x91);
+	writeCommand(0xFF);
 	writeCommand(kSSD1331CommandCONTRASTB);		// 0x82
 	writeCommand(0xFF);
 	writeCommand(kSSD1331CommandCONTRASTC);		// 0x83
-	writeCommand(0x7D);
+	writeCommand(0xFF);
 	writeCommand(kSSD1331CommandDISPLAYON);		// Turn on oled panel
 	SEGGER_RTT_WriteString(0, "\r\n\tDone with initialization sequence...\n");
 
@@ -175,6 +175,98 @@ devSSD1331init(void)
 	writeCommand(0x00);
 	SEGGER_RTT_WriteString(0, "\r\n\tDone with drawing rectangle...\n");
 
+
+	return 0;
+}
+
+
+int
+devSSD1331green(void)
+{
+	/*
+	 *	Any post-initialization drawing commands go here.
+	 */
+	writeCommand(kSSD1331CommandDRAWRECT);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x5F);
+	writeCommand(0x3F);
+	writeCommand(0x00);
+	writeCommand(0xFF);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x7F);
+	writeCommand(0x00);
+	SEGGER_RTT_WriteString(0, "\r\n\tGreen rectangle...\n");
+
+	return 0;
+}
+
+
+int
+devSSD1331red(void)
+{
+	/*
+	 *	Any post-initialization drawing commands go here.
+	 */
+	writeCommand(kSSD1331CommandDRAWRECT);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x5F);
+	writeCommand(0x3F);
+	writeCommand(0xFF);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x7F);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	SEGGER_RTT_WriteString(0, "\r\n\tRed rectangle...\n");
+
+	return 0;
+}
+
+
+int
+devSSD1331blue(void)
+{
+	/*
+	 *	Any post-initialization drawing commands go here.
+	 */
+	writeCommand(kSSD1331CommandDRAWRECT);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x5F);
+	writeCommand(0x3F);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0xFF);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x7F);
+	SEGGER_RTT_WriteString(0, "\r\n\tBlue rectangle...\n");
+
+	return 0;
+}
+
+
+int
+devSSD1331colour(uint8_t red, uint8_t green, uint8_t blue)
+{
+	/*
+	 *	Any post-initialization drawing commands go here.
+	 */
+	writeCommand(kSSD1331CommandDRAWRECT);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x5F);
+	writeCommand(0x3F);
+	writeCommand(red);
+	writeCommand(green);
+	writeCommand(blue);
+	writeCommand(red);
+	writeCommand(green);
+	writeCommand(blue);
+	SEGGER_RTT_WriteString(0, "\r\n\tColour rectangle...\n");
 
 	return 0;
 }
