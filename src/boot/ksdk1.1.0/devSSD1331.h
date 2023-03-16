@@ -42,8 +42,19 @@ typedef enum
 	kSSD1331CommandVCOMH		= 0xBE,
 } SSD1331Commands;
 
+typedef enum
+{
+	kSSD1331DrawingNone = 0,
+	kSSD1331DrawingSit = 1,
+	kSSD1331DrawingWalk = 2,
+	kSSD1331DrawingRun = 3,
+	kSSD1331DrawingStand = 4,
+} SSD1331Drawings;
+
 int	devSSD1331init(void);
 int devSSD1331green(void);
 int devSSD1331blue(void);
 int devSSD1331red(void);
 int devSSD1331colour(uint8_t red, uint8_t green, uint8_t blue);
+int devSSD1331text(SSD1331Drawings picture);
+int devSSD1331bar(float certainty);

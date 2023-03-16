@@ -131,7 +131,7 @@ devSSD1331init(void)
 	writeCommand(kSSD1331CommandVCOMH);		// 0xBE
 	writeCommand(0x3E);
 	writeCommand(kSSD1331CommandMASTERCURRENT);	// 0x87
-	writeCommand(0x0F);
+	writeCommand(0x09);
 	writeCommand(kSSD1331CommandCONTRASTA);		// 0x81
 	writeCommand(0xFF);
 	writeCommand(kSSD1331CommandCONTRASTB);		// 0x82
@@ -157,24 +157,6 @@ devSSD1331init(void)
 	writeCommand(0x5F);
 	writeCommand(0x3F);
 	SEGGER_RTT_WriteString(0, "\r\n\tDone with screen clear...\n");
-
-
-	/*
-	 *	Any post-initialization drawing commands go here.
-	 */
-	writeCommand(kSSD1331CommandDRAWRECT);
-	writeCommand(0x00);
-	writeCommand(0x00);
-	writeCommand(0x5F);
-	writeCommand(0x3F);
-	writeCommand(0x00);
-	writeCommand(0xFF);
-	writeCommand(0x00);
-	writeCommand(0x00);
-	writeCommand(0xFF);
-	writeCommand(0x00);
-	SEGGER_RTT_WriteString(0, "\r\n\tDone with drawing rectangle...\n");
-
 
 	return 0;
 }
@@ -267,6 +249,400 @@ devSSD1331colour(uint8_t red, uint8_t green, uint8_t blue)
 	writeCommand(green);
 	writeCommand(blue);
 	SEGGER_RTT_WriteString(0, "\r\n\tColour rectangle...\n");
+
+	return 0;
+}
+
+
+int devSSD1331text(SSD1331Drawings picture)
+{
+	writeCommand(kSSD1331CommandCLEAR);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x5F);
+	writeCommand(0x3F);
+	switch (picture)
+	{
+	case kSSD1331DrawingStand:
+		writeCommand(kSSD1331CommandDRAWRECT);	// Head
+		writeCommand(12+33);
+		writeCommand(5+12);
+		writeCommand(18+33);
+		writeCommand(11+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0x00);
+		writeCommand(0x00);
+		writeCommand(0x00);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // Body
+		writeCommand(15+33);
+		writeCommand(11+12);
+		writeCommand(15+33);
+		writeCommand(26+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // Arms
+		writeCommand(9+33);
+		writeCommand(17+12);
+		writeCommand(21+33);
+		writeCommand(17+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // Right Leg
+		writeCommand(15+33);
+		writeCommand(26+12);
+		writeCommand(20+33);
+		writeCommand(34+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // Left Leg
+		writeCommand(15+33);
+		writeCommand(26+12);
+		writeCommand(10+33);
+		writeCommand(34+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		break;
+	
+	case kSSD1331DrawingSit:
+		writeCommand(kSSD1331CommandDRAWRECT);	// Head
+		writeCommand(11+33);
+		writeCommand(8+12);
+		writeCommand(17+33);
+		writeCommand(14+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0x00);
+		writeCommand(0x00);
+		writeCommand(0x00);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // Body
+		writeCommand(13+33);
+		writeCommand(14+12);
+		writeCommand(13+33);
+		writeCommand(24+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // Arm
+		writeCommand(13+33);
+		writeCommand(18+12);
+		writeCommand(19+33);
+		writeCommand(21+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // Upper Leg
+		writeCommand(13+33);
+		writeCommand(24+12);
+		writeCommand(19+33);
+		writeCommand(24+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // Lower Leg
+		writeCommand(19+33);
+		writeCommand(24+12);
+		writeCommand(19+33);
+		writeCommand(30+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		break;
+
+	case kSSD1331DrawingWalk:
+		writeCommand(kSSD1331CommandDRAWRECT);	// Head
+		writeCommand(12+33);
+		writeCommand(5+12);
+		writeCommand(18+33);
+		writeCommand(11+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0x00);
+		writeCommand(0x00);
+		writeCommand(0x00);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // Body
+		writeCommand(14+33);
+		writeCommand(11+12);
+		writeCommand(14+33);
+		writeCommand(23+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // UR Arm
+		writeCommand(14+33);
+		writeCommand(15+12);
+		writeCommand(16+33);
+		writeCommand(18+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // LR Arm
+		writeCommand(16+33);
+		writeCommand(18+12);
+		writeCommand(19+33);
+		writeCommand(20+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // UL Arm
+		writeCommand(14+33);
+		writeCommand(15+12);
+		writeCommand(12+33);
+		writeCommand(18+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // LL Arm
+		writeCommand(12+33);
+		writeCommand(18+12);
+		writeCommand(11+33);
+		writeCommand(21+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // UR Leg
+		writeCommand(14+33);
+		writeCommand(23+12);
+		writeCommand(17+33);
+		writeCommand(25+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // LR Leg
+		writeCommand(17+33);
+		writeCommand(25+12);
+		writeCommand(18+33);
+		writeCommand(29+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // UL Leg
+		writeCommand(14+33);
+		writeCommand(23+12);
+		writeCommand(13+33);
+		writeCommand(26+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // LL Leg
+		writeCommand(13+33);
+		writeCommand(26+12);
+		writeCommand(11+33);
+		writeCommand(29+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		break;
+
+	case kSSD1331DrawingRun:
+		writeCommand(kSSD1331CommandDRAWRECT);	// Head
+		writeCommand(17+33);
+		writeCommand(4+12);
+		writeCommand(23+33);
+		writeCommand(10+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0x00);
+		writeCommand(0x00);
+		writeCommand(0x00);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // Body
+		writeCommand(19+33);
+		writeCommand(10+12);
+		writeCommand(15+33);
+		writeCommand(21+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // UR Arm
+		writeCommand(18+33);
+		writeCommand(13+12);
+		writeCommand(20+33);
+		writeCommand(15+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // LR Arm
+		writeCommand(20+33);
+		writeCommand(15+12);
+		writeCommand(23+33);
+		writeCommand(14+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // UL Arm
+		writeCommand(18+33);
+		writeCommand(13+12);
+		writeCommand(15+33);
+		writeCommand(14+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // LL Arm
+		writeCommand(15+33);
+		writeCommand(14+12);
+		writeCommand(14+33);
+		writeCommand(17+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // UR Leg
+		writeCommand(15+33);
+		writeCommand(21+12);
+		writeCommand(18+33);
+		writeCommand(23+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // LR Leg
+		writeCommand(18+33);
+		writeCommand(23+12);
+		writeCommand(19+33);
+		writeCommand(27+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // UL Leg
+		writeCommand(15+33);
+		writeCommand(21+12);
+		writeCommand(12+33);
+		writeCommand(23+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // LL Leg
+		writeCommand(12+33);
+		writeCommand(23+12);
+		writeCommand(9+33);
+		writeCommand(23+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		break;
+	
+	default:
+		writeCommand(kSSD1331CommandDRAWLINE); // Left
+		writeCommand(10+33);
+		writeCommand(15+12);
+		writeCommand(10+33);
+		writeCommand(10+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // Top
+		writeCommand(10+33);
+		writeCommand(10+12);
+		writeCommand(20+33);
+		writeCommand(10+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // Right
+		writeCommand(20+33);
+		writeCommand(10+12);
+		writeCommand(20+33);
+		writeCommand(20+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // Bottom
+		writeCommand(20+33);
+		writeCommand(20+12);
+		writeCommand(15+33);
+		writeCommand(20+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWLINE); // Stem
+		writeCommand(15+33);
+		writeCommand(20+12);
+		writeCommand(15+33);
+		writeCommand(27+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+
+		writeCommand(kSSD1331CommandDRAWRECT);	// Dot
+		writeCommand(14+33);
+		writeCommand(30+12);
+		writeCommand(16+33);
+		writeCommand(32+12);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0xFF);
+		writeCommand(0x00);
+		writeCommand(0x00);
+		writeCommand(0x00);
+		break;
+	}
+
+	return 0;
+}
+
+int devSSD1331bar(float certainty)
+{
+	writeCommand(kSSD1331CommandDRAWRECT);	// Outline
+	writeCommand(35+33);
+	writeCommand(10+12);
+	writeCommand(40+33);
+	writeCommand(30+12);
+	writeCommand(0xFF);
+	writeCommand(0xFF);
+	writeCommand(0xFF);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x00);
+
+	uint8_t inv_bar_height = 20 * (1-certainty);
+
+	writeCommand(kSSD1331CommandDRAWRECT);	// Outline
+	writeCommand(35+33);
+	writeCommand(10+inv_bar_height+12);
+	writeCommand(40+33);
+	writeCommand(30+12);
+	writeCommand(0xFF);
+	writeCommand(0xFF);
+	writeCommand(0xFF);
+	writeCommand(0xFF);
+	writeCommand(0xFF);
+	writeCommand(0xFF);
 
 	return 0;
 }
